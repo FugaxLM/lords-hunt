@@ -2,19 +2,18 @@ const tbody = document.getElementById("tbody");
 const loading = document.getElementById("loading");
 const errorBox = document.getElementById("error");
 const meta = document.getElementById("meta");
+const staleWarn = document.getElementById("staleWarn");
 
 const searchInput = document.getElementById("search");
 const sortSelect = document.getElementById("sort");
 const refreshBtn = document.getElementById("refresh");
-
-// nuevo: envoltorio bonito de la tabla
 const tableWrap = document.getElementById("tableWrap");
 
 let rawPlayers = [];
 
 function fmtNum(n){
   if (n === null || n === undefined || Number.isNaN(n)) return "-";
-  return new Intl.NumberFormat("es-ES").format(n);
+  return new Intl.NumberFormat("en-US").format(n);
 }
 
 function fmtPct(x){
@@ -27,21 +26,26 @@ async function loadData(){
   errorBox.classList.add("hidden");
   errorBox.textContent = "";
   tableWrap.classList.add("hidden");
+  staleWarn.textContent = "";
 
   try {
-    // cache-bust para coger siempre el último JSON
     const res = await fetch(`data/current.json?cb=${Date.now()}`);
-    if(!res.ok) throw new Error("No puedo leer current.json");
+    if(!res.ok) throw new Error("Cannot read current.json");
     const data = await res.json();
 
     rawPlayers = data.players || [];
 
     meta.textContent =
-      `Generado: ${data.generatedAt} | Semana: ${data.weekStart} → ${data.weekEnd} | Jugadores: ${rawPlayers.length}`;
+      `Generated: ${data.generatedAt} | Week: ${data.weekStart} → ${data.weekEnd} | Players: ${rawPlayers.length}`;
+
+    if (data.stale) {
+      staleWarn.textContent =
+        `⚠ Data looks outdated. Last Excel export: ${data.exportedAt}. Make sure the bot exports GIFT_STATS hourly.`;
+    }
 
     render();
   } catch (e){
-    errorBox.textContent = "Error cargando datos: " + e.message;
+    errorBox.textContent = "Error loading data: " + e.message;
     errorBox.classList.remove("hidden");
   } finally {
     loading.classList.add("hidden");
@@ -61,15 +65,13 @@ function render(){
     }
     const va = a[sortKey] ?? 0;
     const vb = b[sortKey] ?? 0;
-    return vb - va; // descendente
+    return vb - va;
   });
 
   tbody.innerHTML = "";
 
   players.forEach((p, i) => {
     const tr = document.createElement("tr");
-
-    // clase name para alinear a la izquierda
     tr.innerHTML = `
       <td>${i+1}</td>
       <td class="name">${p.name ?? "-"}</td>
@@ -85,17 +87,14 @@ function render(){
       <td>${fmtNum(p.l5)}</td>
       <td>${fmtPct(p.goalPctHunt)}</td>
     `;
-
     tbody.appendChild(tr);
   });
 
   tableWrap.classList.remove("hidden");
 }
 
-// eventos
 searchInput.addEventListener("input", render);
 sortSelect.addEventListener("change", render);
 refreshBtn.addEventListener("click", loadData);
 
-// arranque
 loadData();

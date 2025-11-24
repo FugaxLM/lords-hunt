@@ -1,58 +1,58 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lords Mobile - Cacería</title>
+  <title>Lords Mobile – Hunt Ranking</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <header class="wrap">
     <div class="hero">
-      <h1>Lords Mobile – Ranking de Cacería</h1>
+      <h1>Lords Mobile – Hunt Ranking</h1>
       <p class="muted">
-        Semana actual (se actualiza cada hora desde el bot).
+        Current week (auto-updates every hour from the bot).
       </p>
 
       <div class="controls">
-        <input id="search" type="text" placeholder="Buscar jugador..." />
+        <input id="search" type="text" placeholder="Search player..." />
         <select id="sort">
-          <option value="hunt">Ordenar por Hunt</option>
-          <option value="pointsHunt">Ordenar por Puntos Hunt</option>
-          <option value="total">Ordenar por Total</option>
-          <option value="might">Ordenar por Might</option>
-          <option value="name">Ordenar por Nombre</option>
+          <option value="hunt">Sort by Hunt</option>
+          <option value="pointsHunt">Sort by Hunt points</option>
+          <option value="total">Sort by Total</option>
+          <option value="might">Sort by Might</option>
+          <option value="name">Sort by Name</option>
         </select>
-        <button id="refresh">Recargar</button>
+        <button id="refresh">Refresh</button>
       </div>
 
       <div id="meta" class="meta"></div>
+      <div id="staleWarn" class="muted small"></div>
     </div>
   </header>
 
   <main class="wrap">
-    <div id="loading" class="loading">Cargando datos...</div>
+    <div id="loading" class="loading">Loading data...</div>
 
-    <!-- envoltorio bonito + scroll horizontal en móvil -->
     <div class="table-wrap hidden" id="tableWrap">
       <div class="table-scroll">
         <table id="table" class="table">
           <thead>
             <tr>
               <th>#</th>
-              <th>Jugador</th>
-              <th>Rango</th>
+              <th>Player</th>
+              <th>Rank</th>
               <th>Might</th>
               <th>Total</th>
               <th>Hunt</th>
-              <th>Puntos</th>
+              <th>Points</th>
               <th>L1</th>
               <th>L2</th>
               <th>L3</th>
               <th>L4</th>
               <th>L5</th>
-              <th>% meta</th>
+              <th>Goal %</th>
             </tr>
           </thead>
           <tbody id="tbody"></tbody>
@@ -64,7 +64,7 @@
   </main>
 
   <footer class="wrap muted small">
-    Hecho para la guild. Si ves algo raro, avisa a excesives 😄
+    Made for the guild. If something looks wrong, tell excesives 🙂
   </footer>
 
   <script src="app.js"></script>
