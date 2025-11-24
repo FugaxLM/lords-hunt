@@ -2,10 +2,71 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lords Mobile - Cacería</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Ranking de cacería</h1>
-  <p>Web en construcción. Aquí saldrá la semana actual.</p>
+
+  <header class="wrap">
+    <div class="hero">
+      <h1>Lords Mobile – Ranking de Cacería</h1>
+      <p class="muted">
+        Semana actual (se actualiza cada hora desde el bot).
+      </p>
+
+      <div class="controls">
+        <input id="search" type="text" placeholder="Buscar jugador..." />
+        <select id="sort">
+          <option value="hunt">Ordenar por Hunt</option>
+          <option value="pointsHunt">Ordenar por Puntos Hunt</option>
+          <option value="total">Ordenar por Total</option>
+          <option value="might">Ordenar por Might</option>
+          <option value="name">Ordenar por Nombre</option>
+        </select>
+        <button id="refresh">Recargar</button>
+      </div>
+
+      <div id="meta" class="meta"></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="loading" class="loading">Cargando datos...</div>
+
+    <!-- envoltorio bonito + scroll horizontal en móvil -->
+    <div class="table-wrap hidden" id="tableWrap">
+      <div class="table-scroll">
+        <table id="table" class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Jugador</th>
+              <th>Rango</th>
+              <th>Might</th>
+              <th>Total</th>
+              <th>Hunt</th>
+              <th>Puntos</th>
+              <th>L1</th>
+              <th>L2</th>
+              <th>L3</th>
+              <th>L4</th>
+              <th>L5</th>
+              <th>% meta</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="error" class="error hidden"></div>
+  </main>
+
+  <footer class="wrap muted small">
+    Hecho para la guild. Si ves algo raro, avisa a excesives 😄
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
